@@ -9,7 +9,7 @@ public class MainMenuFrame extends JFrame {
 	public MainMenuFrame() {
 		this.setTitle ("My Amazing Game");
 		this.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		this.setSize (600, 600);
+		this.setSize (600, 400);
 		
 		this.panel = new MainMenuPanel(this);
 		this.add(panel);

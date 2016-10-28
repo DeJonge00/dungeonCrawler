@@ -6,13 +6,14 @@ import java.util.Random;
 
 public class Game extends Observable implements Runnable {
 
-	private static int SLEEPTIME = 40;
+	public static int REFRESHINTERVAL = 3;
 	
 	private static Random rng;
 	private ArrayList<Player> players;
 	private boolean aborted;
 	private int tickCounter;
 	private boolean gameOver;
+	private boolean paused;
 	
 	// Constructors
 	public Game() {
@@ -39,12 +40,13 @@ public class Game extends Observable implements Runnable {
 		long executionTime, sleepTime;
 		while (true)
 		{
-			if (!this.gameOver () && !this.aborted)
+			if (!(this.gameOver () || this.aborted || this.paused))
 			{
 				executionTime = System.currentTimeMillis ();
 				this.update ();
 				executionTime -= System.currentTimeMillis ();
-				sleepTime = Math.max (0, SLEEPTIME + executionTime);
+				System.out.println("Time: " + (-executionTime));
+				sleepTime = (long) Math.max (0, REFRESHINTERVAL / 0.1 + executionTime);
 			}
 			else sleepTime = 100;
 
@@ -62,6 +64,14 @@ public class Game extends Observable implements Runnable {
 	
 	private boolean gameOver() {
 		return gameOver;
+	}
+	
+	public void pause(boolean b) {
+		this.paused = b;
+	}
+	
+	public boolean isPaused() {
+		return this.paused;
 	}
 
 	private void update() {

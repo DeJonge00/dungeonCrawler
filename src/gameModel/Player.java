@@ -25,15 +25,14 @@ public class Player extends GameObject {
 	private double acceleration;
 	private double decelleration;
 	private double maxSpeed;
-	private double minSpeed;
 	
 	// Constructor
 	public Player (Point point, int radius)
 	{
-		this (point, 0, 0, 15, 0);
+		this (point, 0, 0, 15);
 	}
 
-	private Player (Point location, double velocityX, double velocityY, int radius, int score)
+	private Player (Point location, double velocityX, double velocityY, int radius)
 	{
 		super (location, velocityX, velocityY, radius);
 		this.up = false;
@@ -43,12 +42,12 @@ public class Player extends GameObject {
 		
 		this.isAttacking = false;
 		this.attackCooldown = 0;
-		this.score = score;
+		this.score = 0;
 		this.color = Color.red;
 		
-		this.acceleration = 2;
-		this.decelleration = 0.5;
-		this.maxSpeed = 15;
+		this.acceleration = Game.REFRESHINTERVAL;			// Multiplier
+		this.decelleration = 0.5 / Game.REFRESHINTERVAL;		// Multiplier
+		this.maxSpeed = 10 * Game.REFRESHINTERVAL;			
 	}
 
 	// Getters and Setters
@@ -95,8 +94,8 @@ public class Player extends GameObject {
 		}
 
 		// Update location.
-		this.locationX = (800 + this.locationX + this.velocityX) % 800;
-		this.locationY = (800 + this.locationY + this.velocityY) % 800;
+		this.locationX = Math.max(30, Math.min(1235, this.locationX + this.velocityX));
+		this.locationY = Math.max(30, Math.min(710, this.locationY + this.velocityY));
 
 		// Decrease speed due to traction.
 		this.velocityX *= decelleration;

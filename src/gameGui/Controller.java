@@ -3,13 +3,16 @@ package gameGui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import gameModel.Game;
 import gameModel.Player;
 
 public class Controller implements KeyListener {
 	private Player player;
+	private Game game;
 
-	public Controller(Player p) {
+	public Controller(Game game, Player p) {
 		this.player = p;
+		this.game = game;
 	}
 
 	@Override
@@ -30,6 +33,11 @@ public class Controller implements KeyListener {
 				break;
 			case KeyEvent.VK_P:
 				System.out.println("PAUSE");
+				if(game.isPaused()) {
+					game.pause(false);
+				} else {
+					game.pause(true);
+				}
 				break;
 			case KeyEvent.VK_ESCAPE:
 				System.out.println("Main Menu?");

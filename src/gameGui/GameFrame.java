@@ -32,9 +32,9 @@ public class GameFrame extends JFrame {
 		
 		// Init player and keylistener
 		Player p1 = new Player(new Point(this.getWidth()/2,this.getHeight()/2), this.getHeight()/40);
-		Controller c1 = new Controller(p1);
-		this.addKeyListener(c1);
 		this.game = new Game(p1);
+		Controller c1 = new Controller(game, p1);
+		this.addKeyListener(c1);
 		this.game.addObserver (new Observer ()
 		{
 			@Override

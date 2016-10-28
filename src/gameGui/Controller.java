@@ -19,29 +19,40 @@ public class Controller implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode ()) 
 		{
-			case KeyEvent.VK_UP:
-				this.player.setUp (true);
-				break;
-			case KeyEvent.VK_DOWN:
-				this.player.setDown (true);
-				break;
-			case KeyEvent.VK_LEFT:
-				this.player.setLeft (true);
-				break;
-			case KeyEvent.VK_RIGHT:
-				this.player.setRight (true);
-				break;
-			case KeyEvent.VK_P:
+		case KeyEvent.VK_UP:
+			this.player.setUpAttack();
+			break;
+		case KeyEvent.VK_DOWN:
+			this.player.setDownAttack();
+			break;
+		case KeyEvent.VK_LEFT:
+			this.player.setLeftAttack();
+			break;
+		case KeyEvent.VK_RIGHT:
+			this.player.setRightAttack();
+			break;
+		case KeyEvent.VK_W:
+			this.player.setUp(true);
+			break;
+		case KeyEvent.VK_S:
+			this.player.setDown(true);
+			break;
+		case KeyEvent.VK_A:
+			this.player.setLeft(true);
+			break;
+		case KeyEvent.VK_D:
+			this.player.setRight(true);
+			break;
+		case KeyEvent.VK_P:
+			
+			if(game.isPaused()) {
+				System.out.println("UNPAUSE");
+				game.pause(false);
+			} else {
 				System.out.println("PAUSE");
-				if(game.isPaused()) {
-					game.pause(false);
-				} else {
-					game.pause(true);
-				}
-				break;
-			case KeyEvent.VK_ESCAPE:
-				System.out.println("Main Menu?");
-				break;
+				game.pause(true);
+			}
+			break;
 		}
 	}
 
@@ -49,18 +60,30 @@ public class Controller implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode ()) 
 		{
-			case KeyEvent.VK_UP:
-				this.player.setUp (false);
-				break;
-			case KeyEvent.VK_DOWN:
-				this.player.setDown (false);
-				break;
-			case KeyEvent.VK_LEFT:
-				this.player.setLeft (false);
-				break;
-			case KeyEvent.VK_RIGHT:
-				this.player.setRight (false);
-				break;
+		case KeyEvent.VK_UP:
+			this.player.setNoAttack();
+			break;
+		case KeyEvent.VK_DOWN:
+			this.player.setNoAttack();
+			break;
+		case KeyEvent.VK_LEFT:
+			this.player.setNoAttack();
+			break;
+		case KeyEvent.VK_RIGHT:
+			this.player.setNoAttack();
+			break;
+		case KeyEvent.VK_W:
+			this.player.setUp(false);
+			break;
+		case KeyEvent.VK_S:
+			this.player.setDown(false);
+			break;
+		case KeyEvent.VK_A:
+			this.player.setLeft(false);
+			break;
+		case KeyEvent.VK_D:
+			this.player.setRight(false);
+			break;
 		}
 		
 	}

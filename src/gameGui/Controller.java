@@ -19,6 +19,7 @@ public class Controller implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode ()) 
 		{
+		// Movement
 		case KeyEvent.VK_UP:
 			this.player.setUpAttack();
 			break;
@@ -31,6 +32,7 @@ public class Controller implements KeyListener {
 		case KeyEvent.VK_RIGHT:
 			this.player.setRightAttack();
 			break;
+		// Attack
 		case KeyEvent.VK_W:
 			this.player.setUp(true);
 			break;
@@ -43,6 +45,7 @@ public class Controller implements KeyListener {
 		case KeyEvent.VK_D:
 			this.player.setRight(true);
 			break;
+		// Pause
 		case KeyEvent.VK_P:
 			
 			if(game.isPaused()) {
@@ -52,6 +55,15 @@ public class Controller implements KeyListener {
 				System.out.println("PAUSE");
 				game.pause(true);
 			}
+			break;
+		// Switch weapons
+		case KeyEvent.VK_1:
+			System.out.println("Equip: Lightningbolt");
+			this.player.setWeapon("lightningbolt");
+			break;
+		case KeyEvent.VK_2:
+			System.out.println("Equip: Fireball");
+			this.player.setWeapon("fireball");
 			break;
 		}
 	}

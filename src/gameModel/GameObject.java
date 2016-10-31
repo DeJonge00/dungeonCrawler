@@ -1,6 +1,7 @@
 package gameModel;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.Serializable;
 
@@ -15,10 +16,10 @@ public abstract class GameObject implements Serializable {
 	protected double velocityY;
 
 	// Radius of the object
-	protected int radius;
+	protected double radius;
 	
 	// Color of the gameobject
-	private Color color;
+	protected Color color;
 
 	// Holds true if object collided with another object, false otherwise
 	protected boolean destroyed;
@@ -27,13 +28,13 @@ public abstract class GameObject implements Serializable {
 	protected int stepsTilCollide;
 	
 	// Constructor
-	protected GameObject (Point location, double velocityX, double velocityY, int radius, Color c)
+	protected GameObject (Point location, double velocityX, double velocityY, double d, Color c)
 	{
 		this.locationX = location.x;
 		this.locationY = location.y;
 		this.velocityX = velocityX;
 		this.velocityY = velocityY;
-		this.radius = radius;
+		this.radius = d;
 		this.stepsTilCollide = 3;
 		this.color = c;
 	}
@@ -43,7 +44,7 @@ public abstract class GameObject implements Serializable {
 		return new Point((int)this.locationX, (int)this.locationY);
 	}
 
-	public int getRadius() {
+	public double getRadius() {
 		return radius;
 	}
 
@@ -58,6 +59,7 @@ public abstract class GameObject implements Serializable {
 	// Methods
 	// Subclasses need to specify their own behaviour
 	abstract public void nextStep ();
+	abstract public void paint(Graphics2D g);
 	
 	// Destroys object
 	public void destroy ()

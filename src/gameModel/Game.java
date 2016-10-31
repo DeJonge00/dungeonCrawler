@@ -1,5 +1,6 @@
 package gameModel;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
@@ -10,21 +11,24 @@ public class Game extends Observable implements Runnable {
 	public static int REFRESHINTERVAL = 4;
 	
 	// Gamestates
-	private static Random rng;
+	public static Random rng;
 	private boolean aborted;
 	private int tickCounter;
 	private boolean gameOver;
 	private boolean paused;
+	private int level;
 	
 	// Gameobjects
 	private ArrayList<Player> players;
 	private Collection<Attack> attacks;
+	private Collection<Monster> monsters;
 	
 	// Constructors
 	public Game() {
 		this.rng = new Random ();
 		this.players = new ArrayList<>();
 		this.attacks = new ArrayList<>();
+		this.monsters = new ArrayList<>();
 		this.initGameData ();
 	}
 
@@ -38,6 +42,25 @@ public class Game extends Observable implements Runnable {
 		this.aborted = false;
 		this.tickCounter = 0;
 		this.gameOver = false;
+		this.level = 1;
+	}
+	
+	private void initLevel() {
+		System.out.println("Level " + this.level + " stated!");
+		int x, y, temp, dist;
+		for(int i = 0; i < level; i++) {
+			do {
+				dist = 300;
+				x = rng.nextInt(1220) + 10;
+				y = rng.nextInt(780) + 10;
+				for(Player p : players) {
+					temp = Math.abs(p.getLocation().x - x) + Math.abs(p.getLocation().y);
+					if(temp > dist) dist = temp;
+				}
+			} while (dist <= 300);
+			this.monsters.add(new Monster(new Point(x, y)));
+		}
+		this.level++;
 	}
 	
 	@Override
@@ -70,15 +93,59 @@ public class Game extends Observable implements Runnable {
 	
 	private void removeDestroyedObjects ()
 	{
-		Collection <Attack> newarr = new ArrayList <> ();
+		Collection <Attack> newa = new ArrayList <> ();
 		for (Attack a : this.attacks)
 		{
 			if (!a.isDestroyed ())
 			{
-				newarr.add (a);
+				newa.add (a);
 			}
 		}
-		this.attacks = newarr;
+		this.attacks = newa;
+		
+		Collection <Monster> newm = new ArrayList <> ();
+		for (Monster m : this.monsters)
+		{
+			if (!m.isDestroyed ())
+			{
+				newm.add (m);
+			}
+		}
+		this.monsters = newm;
+		
+		ArrayList <Player> newp = new ArrayList <> ();
+		for (Player p : this.players)
+		{
+			if (!p.isDestroyed ())
+			{
+				newp.add (p);
+			}
+		}
+		this.players = newp;
+	}
+	
+	private void checkCollisions () {
+		for (Player p : this.players) {
+			for (Monster m : this.monsters) {
+				if (p.collides (m)) {
+					System.out.println("Player x monster");
+					p.destroy();
+				}
+			}
+			for(Attack a : this.attacks) {
+				if (p.collides (a) && a.isHostile()) {
+					p.destroy ();
+				}
+			}
+		}
+		for(Monster m : this.monsters) {
+			for(Attack a : this.attacks) {
+				if(m.collides(a)) {
+					m.destroy();
+					a.destroy();
+				}
+			}
+		}
 	}
 	
 	private boolean gameOver() {
@@ -94,12 +161,20 @@ public class Game extends Observable implements Runnable {
 	}
 
 	private void update() {
+		if(this.monsters.size() <= 0) this.initLevel();
+		this.checkCollisions();
 		this.removeDestroyedObjects();
 		for(Player p : players) {
 			p.nextStep();
 		}
+		if(players.size() <= 0) return;
 		for(Attack a : attacks) {
 			a.nextStep();
+		}
+		for(Monster m : monsters) {
+			int t = rng.nextInt(this.players.size());
+			m.setTarget(this.players.get(t).getLocation());
+			m.nextStep();
 		}
 		this.setChanged ();
 		this.notifyObservers ();
@@ -120,5 +195,8 @@ public class Game extends Observable implements Runnable {
 	}
 	public Collection<Attack> getAttacks() {
 		return this.attacks;
+	}
+	public Collection<Monster> getMonsters() {
+		return this.monsters;
 	}
 }

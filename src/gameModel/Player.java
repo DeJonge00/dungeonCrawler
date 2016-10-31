@@ -1,7 +1,9 @@
 package gameModel;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Ellipse2D;
 
 public class Player extends GameObject {
 
@@ -28,6 +30,7 @@ public class Player extends GameObject {
 	private int score;
 
 	// Player stats
+	private int health;
 	private double acceleration;
 	private double decelleration;
 	private double maxSpeed;
@@ -48,6 +51,7 @@ public class Player extends GameObject {
 		this.down = false;
 		this.attackDirection = "";
 		
+		this.health = 100;
 		this.isAttacking = false;
 		this.attackCooldown = 0;
 		this.attackStrength = 0;
@@ -97,6 +101,9 @@ public class Player extends GameObject {
 	private void setAttacking(boolean b) {
 		this.isAttacking = b;
 	}
+	public void setWeapon(String s) {
+		this.weapon = s;
+	}
 	
 	// Methods
 	@Override 
@@ -139,18 +146,26 @@ public class Player extends GameObject {
 		if(this.isAttacking) {
 			this.attackStrength++;
 		} else {
-			if(this.attackStrength > 0) {
+			if(this.attackStrength > 0 && this.attackCooldown <= 0) {
 				this.attack();
+			} else {
+				this.attackStrength = 0;
+				this.attackDirection = "";
 			}
 		}
 	}
 	
+	public void paint(Graphics2D g) {
+		g.setColor(this.color);
+		Ellipse2D.Double e = new Ellipse2D.Double ();
+		e.setFrame (this.locationX - this.radius, this.locationY - this.radius, 2 * this.radius, 2 * this.radius);
+		g.fill (e);
+	}
+	
 	private void attack() {
+		int velX, velY;
 		switch (this.weapon) {
 			case "lightningbolt":
-				System.out.println("LIGHTNINGBOLT!!");
-				int velX;
-				int velY;
 				switch(this.attackDirection) {
 				case "up":
 					velX = 0;
@@ -172,16 +187,48 @@ public class Player extends GameObject {
 					velX = 0;
 					velY = 0;
 				}
-				System.out.println(velX + "  " + velY);
 				if(!(velX == 0 && velY == 0)) {
-					game.addAttack(new LightningBolt(new Point((int)this.locationX, (int) this.locationY), velX, velY, 10, 1));
+					game.addAttack(new LightningBolt(new Point((int)this.locationX, (int) this.locationY), velX, velY, 0, false));
 					this.attackStrength = 0;
 					this.attackDirection = "";
+					this.attackCooldown = 5*Game.REFRESHINTERVAL;
+					break;
+				}
+				break;
+			case "fireball":
+				switch(this.attackDirection) {
+				case "up":
+					velX = 0;
+					velY = -3 * Game.REFRESHINTERVAL;
+					break;
+				case "down":
+					velX = 0;
+					velY = 3 * Game.REFRESHINTERVAL;
+					break;
+				case "right":
+					velX = 3 * Game.REFRESHINTERVAL;
+					velY = 0;
+					break;
+				case "left":
+					velX = -3 * Game.REFRESHINTERVAL;
+					velY = 0;
+					break;
+				default:
+					velX = 0;
+					velY = 0;
+				}
+				if(!(velX == 0 && velY == 0)) {
+					game.addAttack(new Fireball(new Point((int)this.locationX, (int)this.locationY), velX, velY, 0, false));
+					this.attackStrength = 0;
+					this.attackDirection = "";
+					this.attackCooldown = 5*Game.REFRESHINTERVAL;
 					break;
 				}
 				break;
 			default:
 				System.out.println("No weapon equipped");
+				this.attackStrength = 0;
+				this.attackDirection = "";
 		}
 	}
 }

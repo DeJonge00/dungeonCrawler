@@ -1,15 +1,14 @@
 package gameModel;
 
-import java.awt.Point;
-import java.awt.geom.Ellipse2D;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Ellipse2D;
 
-public class LightningBolt extends Attack {
-	private static final long serialVersionUID = 5628077465545068736L;
-
-	protected LightningBolt(Point location, double velocityX, double velocityY, int level, boolean hostile) {
-		super(location, velocityX, velocityY, 10*(Math.pow(1.1, level)), 150 / Game.REFRESHINTERVAL, 40, hostile,  Color.blue);
+public class Fireball extends Attack {
+	
+	protected Fireball(Point location, double velocityX, double velocityY, int level, boolean hostile) {
+		super(location, velocityX, velocityY, 20*(Math.pow(1.1, level)), 50 / Game.REFRESHINTERVAL, 100, hostile, Color.red);
 	}
 
 	// Methods
@@ -32,4 +31,5 @@ public class LightningBolt extends Attack {
 		e.setFrame (this.locationX - this.radius, this.locationY- this.radius, 2 * this.radius, 2 * this.radius);
 		g.fill (e);
 	}
+
 }

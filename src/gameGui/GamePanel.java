@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import gameModel.Attack;
 import gameModel.Game;
+import gameModel.Monster;
 import gameModel.Player;
 
 public class GamePanel extends JPanel {
@@ -34,31 +35,19 @@ public class GamePanel extends JPanel {
 		g2.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		this.setBackground (Color.black);
 
-		this.paintAttacks(g2);
-		this.paintPlayers(g2);
-
-		g2.setColor (Color.WHITE);
-	}
-	
-	private void paintPlayers (Graphics2D g)
-	{
-		g.setColor (Color.GRAY);
-
-		for (Player p : this.game.getPlayers ())
-		{
-			g.setColor(p.getColor());
-			Ellipse2D.Double e = new Ellipse2D.Double ();
-			e.setFrame (p.getLocation ().x - p.getRadius (), p.getLocation ().y - p.getRadius (), 2 * p.getRadius (), 2 * p.getRadius ());
-			g.fill (e);
-		}
-	}
-	private void paintAttacks (Graphics2D g) {
 		for (Attack a : this.game.getAttacks())
 		{
-			g.setColor(a.getColor());
-			Ellipse2D.Double e = new Ellipse2D.Double ();
-			e.setFrame (a.getLocation ().x - a.getRadius (), a.getLocation ().y - a.getRadius (), 2 * a.getRadius (), 2 * a.getRadius ());
-			g.fill (e);
+			a.paint(g2);
 		}
+		for (Monster m : this.game.getMonsters())
+		{
+			m.paint(g2);
+		}
+		for (Player p : this.game.getPlayers())
+		{
+			p.paint(g2);
+		}
+
+		g2.setColor (Color.WHITE);
 	}
 }

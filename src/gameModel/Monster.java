@@ -5,41 +5,15 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
-public class Monster extends GameObject {
-
-	private Point target;
+public abstract class Monster extends GameObject {
+	private static final long serialVersionUID = 7294683746940898656L;
+	protected Player target;
 	
-	protected Monster(Point location) {
-		super(location, 0, 0, 30, Color.pink);
+	protected Monster(Point location, Player target, Color c) {
+		super(location, 0, 0, 30, c);
+		this.target = target;
 	}
-
-	@Override
-	public void nextStep() {
-		if(target == null) {
-			System.out.println("No target found");
-		} else {
-			// Calculate direction
-			if(this.target.getLocation().x > this.locationX) {
-				this.velocityX = (Game.rng.nextInt(10)/10)+2;
-			} else {
-				this.velocityX = -((Game.rng.nextInt(10)/10)+2);
-			}
-			if(this.target.getLocation().y > this.locationY) {
-				this.velocityY = (Game.rng.nextInt(10)/10)+2;
-			} else {
-				this.velocityY = -((Game.rng.nextInt(10)/10)+2);
-			}
-						
-			this.stepsTilCollide = Math.max (0, this.stepsTilCollide - 1);
-
-			// Update location.
-			this.locationX = (this.locationX + this.velocityX);
-			this.locationY = (this.locationY + this.velocityY);
-			System.out.println("Monster location: " + this.locationX + ", " + this.locationY);
-			if(this.locationX < 0 || this.locationX > 1280 || this.locationY < 0 || this.locationY > 800) this.destroy();
-		}
-	}
-
+	
 	@Override
 	public void paint(Graphics2D g) {
 		g.setColor(this.color);
@@ -48,7 +22,7 @@ public class Monster extends GameObject {
 		g.fill (e);
 	}
 
-	public void setTarget(Point p) {
+	public void setTarget(Player p) {
 		this.target = p;
 	}
 }

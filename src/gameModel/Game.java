@@ -25,10 +25,7 @@ public class Game extends Observable implements Runnable {
 	
 	// Constructors
 	public Game() {
-		this.rng = new Random ();
 		this.players = new ArrayList<>();
-		this.attacks = new ArrayList<>();
-		this.monsters = new ArrayList<>();
 		this.initGameData ();
 	}
 
@@ -38,7 +35,11 @@ public class Game extends Observable implements Runnable {
 	}
 	
 	// Methods
-	private void initGameData() {
+	public void initGameData() {
+		this.rng = new Random ();
+		this.attacks = new ArrayList<>();
+		this.monsters = new ArrayList<>();
+
 		this.aborted = false;
 		this.tickCounter = 0;
 		this.gameOver = false;
@@ -58,7 +59,7 @@ public class Game extends Observable implements Runnable {
 					if(temp > dist) dist = temp;
 				}
 			} while (dist <= 300);
-			this.monsters.add(new Monster(new Point(x, y)));
+			this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
 		}
 		this.level++;
 	}
@@ -140,7 +141,7 @@ public class Game extends Observable implements Runnable {
 		}
 		for(Monster m : this.monsters) {
 			for(Attack a : this.attacks) {
-				if(m.collides(a)) {
+				if(m.collides(a) && !a.isHostile()) {
 					m.destroy();
 					a.destroy();
 				}
@@ -173,7 +174,7 @@ public class Game extends Observable implements Runnable {
 		}
 		for(Monster m : monsters) {
 			int t = rng.nextInt(this.players.size());
-			m.setTarget(this.players.get(t).getLocation());
+			m.setTarget(this.players.get(t));
 			m.nextStep();
 		}
 		this.setChanged ();
@@ -198,5 +199,8 @@ public class Game extends Observable implements Runnable {
 	}
 	public Collection<Monster> getMonsters() {
 		return this.monsters;
+	}
+	public void abort() {
+		this.aborted = true;
 	}
 }

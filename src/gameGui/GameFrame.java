@@ -20,6 +20,7 @@ public class GameFrame extends JFrame {
 	private GamePanel panel;
 	private AbstractAction quitAction;
 	private AbstractAction toMainMenu;
+	private AbstractAction newSPgameAction;
 	private Game game;
 
 	public GameFrame() {
@@ -62,7 +63,7 @@ public class GameFrame extends JFrame {
 		JMenu m = new JMenu ("Game");
 		mb.add (m);
 		m.add (this.quitAction);
-		//m.add (this.newSPGameAction);
+		m.add (this.newSPgameAction);
 		m.add (this.toMainMenu);
 		this.setJMenuBar (mb);
 	}
@@ -79,6 +80,18 @@ public class GameFrame extends JFrame {
 			{
 				System.exit(0);
 			}
+		};
+		
+		this.newSPgameAction = new AbstractAction ("New single player game") 
+		{
+			public static final long serialVersionUID = 2L;
+
+			@Override
+			public void actionPerformed (ActionEvent ae) 
+			{
+				game.abort();
+				game.initGameData();
+				panel.repaint();			}
 		};
 		
 		// Quits the application

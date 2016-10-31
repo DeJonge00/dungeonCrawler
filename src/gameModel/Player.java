@@ -156,6 +156,7 @@ public class Player extends GameObject {
 	}
 	
 	public void paint(Graphics2D g) {
+		if(this.destroyed == true) return;
 		g.setColor(this.color);
 		Ellipse2D.Double e = new Ellipse2D.Double ();
 		e.setFrame (this.locationX - this.radius, this.locationY - this.radius, 2 * this.radius, 2 * this.radius);
@@ -191,7 +192,7 @@ public class Player extends GameObject {
 					game.addAttack(new LightningBolt(new Point((int)this.locationX, (int) this.locationY), velX, velY, 0, false));
 					this.attackStrength = 0;
 					this.attackDirection = "";
-					this.attackCooldown = 5*Game.REFRESHINTERVAL;
+					this.attackCooldown = 100/Game.REFRESHINTERVAL;
 					break;
 				}
 				break;

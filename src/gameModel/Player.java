@@ -36,7 +36,7 @@ public class Player extends GameObject {
 	
 	// Constructor
 	public Player (Point point, String name) {
-		this (point, 0, 0, 25, name);
+		this (point, 0, 0, 22, name);
 	}
 
 	private Player (Point location, double velocityX, double velocityY, int radius, String name)

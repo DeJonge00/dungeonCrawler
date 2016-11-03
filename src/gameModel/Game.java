@@ -184,7 +184,7 @@ public class Game extends Observable implements Runnable {
 		}
 		for(Attack a : attacks) {
 			for(Attack a2 : attacks) {
-				if(a != a2 && a.collides(a2)) {
+				if(a.isHostile() && !a2.isHostile() && a.collides(a2)) {
 					a.destroy();
 					if(a.getShooter() != null) a.getShooter().addScore(1);
 					a2.destroy();

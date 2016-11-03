@@ -50,6 +50,7 @@ public class MainMenuPanel extends JPanel {
 				JOptionPane.showMessageDialog(frame, 
 						"Walking:                   W/A/S/D\n"
 						+ "Attacking:                Arrow-keys\n"
+						+ "(Un)Pause                P\n"
 						+ "Equip weapon:\n"
 						+ "  Lightningbolt:        1\n"
 						+ "  Fireball:                   2\n"

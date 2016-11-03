@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
+import gameGui.GameFrame;
+
 public class Player extends GameObject {
 
 	private Game game;
@@ -30,28 +32,31 @@ public class Player extends GameObject {
 	private int score;
 
 	// Player stats
-	private int health;
 	private double acceleration;
 	private double decelleration;
 	private double maxSpeed;
 	private String weapon;
 	
 	// Constructor
-	public Player (Point point, int radius)
-	{
+	public Player (Point point) {
 		this (point, 0, 0, 25);
+		System.out.println("New player created");
 	}
 
 	private Player (Point location, double velocityX, double velocityY, int radius)
 	{
 		super (location, velocityX, velocityY, radius, Color.red);
+		this.init();
+	}
+	
+	public void init() {
+		this.resurrect();
 		this.up = false;
 		this.left = false;
 		this.right = false;
 		this.down = false;
 		this.attackDirection = "";
 		
-		this.health = 100;
 		this.isAttacking = false;
 		this.attackCooldown = 0;
 		this.attackStrength = 0;
@@ -60,7 +65,7 @@ public class Player extends GameObject {
 		
 		this.acceleration = Game.REFRESHINTERVAL;			// Multiplier
 		this.decelleration = 0.5 / Game.REFRESHINTERVAL;		// Multiplier
-		this.maxSpeed = 10 * Game.REFRESHINTERVAL;			
+		this.maxSpeed = 10 * Game.REFRESHINTERVAL;	
 	}
 
 	// Getters and Setters
@@ -104,6 +109,9 @@ public class Player extends GameObject {
 	public void setWeapon(String s) {
 		this.weapon = s;
 	}
+	public void resurrect() {
+		this.destroyed = false;
+	}
 	
 	// Methods
 	@Override 
@@ -130,8 +138,8 @@ public class Player extends GameObject {
 		}
 
 		// Update location.
-		this.locationX = Math.max(30, Math.min(1235, this.locationX + this.velocityX));
-		this.locationY = Math.max(30, Math.min(710, this.locationY + this.velocityY));
+		this.locationX = Math.max(30, Math.min(GameFrame.FRAME_WIDTH-45, this.locationX + this.velocityX));
+		this.locationY = Math.max(30, Math.min(GameFrame.FRAME_HEIGHT-90, this.locationY + this.velocityY));
 
 		// Decrease speed due to traction.
 		this.velocityX *= decelleration;
@@ -143,6 +151,7 @@ public class Player extends GameObject {
 			this.attackCooldown--;
 		}
 		
+		// Execute attack
 		if(this.isAttacking) {
 			this.attackStrength++;
 		} else {

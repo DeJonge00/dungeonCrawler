@@ -6,11 +6,18 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import gameGui.GameFrame;
+import mainMenu.MainMenuFrame;
+
 public class Game extends Observable implements Runnable {
 
 	public static int REFRESHINTERVAL = 4;
 	
 	// Gamestates
+	private JFrame frame;
 	public static Random rng;
 	private boolean aborted;
 	private int tickCounter;
@@ -19,31 +26,43 @@ public class Game extends Observable implements Runnable {
 	private int level;
 	
 	// Gameobjects
+	private ArrayList<Player> allPlayers;
 	private ArrayList<Player> players;
 	private Collection<Attack> attacks;
 	private Collection<Monster> monsters;
 	
 	// Constructors
-	public Game() {
-		this.players = new ArrayList<>();
+	public Game(JFrame frame) {
+		this.frame = frame;
+		this.allPlayers = new ArrayList<Player>();
 		this.initGameData ();
 	}
 
-	public Game(Player p1) {
-		this();
-		this.addPlayer(p1);
+	public Game(JFrame frame, Player p1) {
+		this(frame);
+		this.allPlayers.add(p1);
+		System.out.println(allPlayers.size());
 	}
 	
 	// Methods
 	public void initGameData() {
 		this.rng = new Random ();
+		this.resetPlayerStatus();
+		this.players = this.allPlayers;
 		this.attacks = new ArrayList<>();
 		this.monsters = new ArrayList<>();
 
 		this.aborted = false;
+		this.gameOver = false;
 		this.tickCounter = 0;
 		this.gameOver = false;
 		this.level = 1;
+	}
+	
+	private void resetPlayerStatus() {
+		for(Player p : this.allPlayers) {
+			p.init();
+		}
 	}
 	
 	private void initLevel() {
@@ -52,13 +71,13 @@ public class Game extends Observable implements Runnable {
 		for(int i = 0; i < level; i++) {
 			do {
 				dist = 300;
-				x = rng.nextInt(1220) + 10;
-				y = rng.nextInt(780) + 10;
+				x = rng.nextInt(GameFrame.FRAME_WIDTH-45) + 30;
+				y = rng.nextInt(GameFrame.FRAME_HEIGHT-90) + 10;
 				for(Player p : players) {
 					temp = Math.abs(p.getLocation().x - x) + Math.abs(p.getLocation().y);
 					if(temp > dist) dist = temp;
 				}
-			} while (dist <= 300);
+			} while (dist <= 450);
 			this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
 		}
 		this.level++;
@@ -70,7 +89,8 @@ public class Game extends Observable implements Runnable {
 		long executionTime, sleepTime;
 		while (true)
 		{
-			if (!(this.gameOver () || this.aborted || this.paused))
+			
+			if (!(this.gameOver() || this.aborted || this.paused))
 			{
 				executionTime = System.currentTimeMillis ();
 				this.update ();
@@ -79,6 +99,24 @@ public class Game extends Observable implements Runnable {
 				sleepTime = (long) Math.max (0, REFRESHINTERVAL / 0.1 + executionTime);
 			}
 			else sleepTime = 100;
+			if(this.gameOver()) {
+				//Custom button text
+				Object[] options = {"Again, again!", "No, I'm done"};
+				int n = JOptionPane.showOptionDialog(frame,
+				    "Restart game?","I WANT ATTENTION", JOptionPane.YES_NO_CANCEL_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,
+				    null, options, options[1]);
+				System.out.println(n);
+				this.gameOver = false;
+				if(n == 0) {
+					this.initGameData();
+				} else {
+					this.abort();
+					new MainMenuFrame();
+					this.frame.setVisible(false);
+					return;
+				}
+			}
 
 			try
 			{
@@ -86,7 +124,7 @@ public class Game extends Observable implements Runnable {
 			}
 			catch (InterruptedException e)
 			{
-				System.err.println ("Could not perfrom action: Thread.sleep(...) in the game class");
+				System.err.println ("Could not sleep in the game class");
 				e.printStackTrace ();
 			}
 		}
@@ -168,7 +206,11 @@ public class Game extends Observable implements Runnable {
 		for(Player p : players) {
 			p.nextStep();
 		}
-		if(players.size() <= 0) return;
+		if(players.size() <= 0) {
+			this.gameOver = true;
+			System.out.println("205");
+			return;
+		}
 		for(Attack a : attacks) {
 			a.nextStep();
 		}
@@ -181,7 +223,7 @@ public class Game extends Observable implements Runnable {
 		this.notifyObservers ();
 	}
 
-	private void addPlayer(Player p1) {
+	public void addPlayer(Player p1) {
 		players.add(p1);
 		p1.setGame(this);
 	}

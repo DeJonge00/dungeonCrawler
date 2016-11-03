@@ -18,6 +18,7 @@ public class MainMenuPanel extends JPanel {
 	
 	private JLabel title;
 	private JButton startSPGame;
+	private JButton exitGame;
 
 	private JFrame frame;
 	
@@ -25,6 +26,7 @@ public class MainMenuPanel extends JPanel {
 		this.frame = frame;
 		this.title = addLabel("Let the games begin!", 10, 10, 200, 50, 45);
 		this.startSPGame = addButton("Start singleplayer game", 10, 100, 200, 50);
+		this.exitGame = addButton("Exit game", 10, 100, 200, 50);
 		
 		// Button starts new single player game
 		startSPGame.addActionListener(new ActionListener() {
@@ -32,6 +34,14 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				new GameFrame();
 				MainMenuPanel.this.frame.setVisible(false);
+			}
+		}
+		);
+		
+		exitGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		}
 		);

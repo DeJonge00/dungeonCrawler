@@ -17,23 +17,26 @@ import mainMenu.MainMenuFrame;
 import mainMenu.MainMenuPanel;
 
 public class GameFrame extends JFrame {
+	public static int FRAME_HEIGHT = 800;
+	public static int FRAME_WIDTH = 1280;
 	private GamePanel panel;
 	private AbstractAction quitAction;
 	private AbstractAction toMainMenu;
 	private AbstractAction newSPgameAction;
 	private Game game;
+	private Player p1;
 
 	public GameFrame() {
 		// Init frame
 		this.initActions ();
 		this.setTitle ("My Amazing Game");
 		this.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		this.setSize (1280, 800);
+		this.setSize (this.FRAME_WIDTH, this.FRAME_HEIGHT);
 		addMenuBar();
 		
 		// Init player and keylistener
-		Player p1 = new Player(new Point(this.getWidth()/2,this.getHeight()/2), this.getHeight()/40);
-		this.game = new Game(p1);
+		p1 = new Player(new Point(this.FRAME_WIDTH/2,this.FRAME_HEIGHT/2));
+		this.game = new Game(this, p1);
 		Controller c1 = new Controller(game, p1);
 		this.addKeyListener(c1);
 		this.game.addObserver (new Observer ()
@@ -91,7 +94,8 @@ public class GameFrame extends JFrame {
 			{
 				game.abort();
 				game.initGameData();
-				panel.repaint();			}
+				panel.repaint();
+			}
 		};
 		
 		// Quits the application
@@ -102,7 +106,6 @@ public class GameFrame extends JFrame {
 			@Override
 			public void actionPerformed (ActionEvent ae) 
 			{
-				
 				//Custom button text
 				Object[] options = {"GET ME OUTTA HERE", "No, thanks"};
 				int n = JOptionPane.showOptionDialog(GameFrame.this,

@@ -50,6 +50,8 @@ public class GamePanel extends JPanel {
 		}
 		
 		// Paint HUD
+		g2.drawString (this.game.getLevel(), (GameFrame.FRAME_WIDTH / 2) - 20, 20);
+		
 		g2.setColor (Color.WHITE);
 		for(int i = 0; i < this.game.getAllPlayers().size(); i++) {
 			g2.drawString (this.game.getAllPlayers().get(i).getName() + ": " + String.valueOf (this.game.getAllPlayers().get(i).getScore()), 20, (i+1)*20);

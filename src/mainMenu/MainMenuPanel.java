@@ -12,33 +12,33 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import gameGui.GameFrame;
-import gameModel.Game;
 
 public class MainMenuPanel extends JPanel {
 	private static final long serialVersionUID = -3176198390190043523L;
 	
-	private JLabel title;
-	private JLabel title2;
 	private JButton startSPGame;
 	private JButton showControls;
 	private JButton exitGame;
+	private JTextField name;
 
 	private JFrame frame;
 	
 	public MainMenuPanel(JFrame frame) {
 		this.frame = frame;
 		this.setLayout(null);
-		this.title = addLabel("Welcome to:", 175, 50, 400, 50, 25);
-		this.title2 = addLabel("Dungeon Crawler", 105, 100, 400, 50, 40);
+		addLabel("Welcome to:", 175, 50, 400, 50, 25);
+		addLabel("Dungeon Crawler", 105, 100, 400, 50, 40);
 		this.startSPGame = addButton("Start singleplayer game", 150, 180, 200, 40);
-		this.showControls = addButton("Show controls", 150, 230, 200, 40);
-		this.exitGame = addButton("Exit game", 150, 280, 200, 40);
+		this.name = addTextField("<Insert name here>", 150, 230, 200, 40);
+		this.showControls = addButton("Show controls", 150, 280, 200, 40);
+		this.exitGame = addButton("Exit game", 150, 330, 200, 40);
+		name.setHorizontalAlignment(JTextField.CENTER);
 		
 		// Button starts new single player game
 		startSPGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new GameFrame();
+				new GameFrame(name.getText());
 				MainMenuPanel.this.frame.setVisible(false);
 			}
 		}

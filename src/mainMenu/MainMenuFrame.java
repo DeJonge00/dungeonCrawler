@@ -5,8 +5,6 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import gameGui.GameFrame;
-
 public class MainMenuFrame extends JFrame {
 	private static final long serialVersionUID = 3479343261234571218L;
 	private MainMenuPanel panel;

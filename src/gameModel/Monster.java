@@ -10,8 +10,8 @@ public abstract class Monster extends GameObject {
 	protected Player target;
 	private int contactDamage;
 	
-	protected Monster(Point location, Player target, int damage, Color c) {
-		super(location, 0, 0, 30, c);
+	protected Monster(Point location, Player target, int damage, int radius, Color c) {
+		super(location, 0, 0, radius, c);
 		this.target = target;
 		this.contactDamage = damage;
 	}

@@ -28,16 +28,16 @@ public class GameFrame extends JFrame {
 	private Game game;
 	private Player p1;
 
-	public GameFrame() {
+	public GameFrame(String playerName) {
 		// Init frame
 		this.initActions ();
 		this.setTitle ("Dungeon Crawler (Dont Blame Me For Being Terrible At Names)");
 		this.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		this.setSize (this.FRAME_WIDTH, this.FRAME_HEIGHT);
+		this.setSize (GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
 		addMenuBar();
 		
 		// Init player and keylistener
-		p1 = new Player(new Point(this.FRAME_WIDTH/2,this.FRAME_HEIGHT/2), "Player1");
+		p1 = new Player(new Point(GameFrame.FRAME_WIDTH/2,GameFrame.FRAME_HEIGHT/2), playerName);
 		this.game = new Game(this, p1);
 		Controller c1 = new Controller(game, p1);
 		this.addKeyListener(c1);

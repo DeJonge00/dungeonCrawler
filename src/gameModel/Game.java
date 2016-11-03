@@ -56,7 +56,7 @@ public class Game extends Observable implements Runnable {
 		this.gameOver = false;
 		this.tickCounter = 0;
 		this.gameOver = false;
-		this.level = 1;
+		this.level = 0;
 	}
 	
 	private void resetPlayerStatus() {
@@ -66,6 +66,7 @@ public class Game extends Observable implements Runnable {
 	}
 	
 	private void initLevel() {
+		this.level++;
 		System.out.println("Level " + this.level + " stated!");
 		try {
 			Thread.sleep (40);
@@ -90,7 +91,6 @@ public class Game extends Observable implements Runnable {
 				this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
 			}
 		}
-		this.level++;
 	}
 	
 	@Override
@@ -182,6 +182,15 @@ public class Game extends Observable implements Runnable {
 				}
 			}
 		}
+		for(Attack a : attacks) {
+			for(Attack a2 : attacks) {
+				if(a != a2 && a.collides(a2)) {
+					a.destroy();
+					if(a.getShooter() != null) a.getShooter().addScore(1);
+					a2.destroy();
+				}
+			}
+		}
 	}
 	
 	private boolean gameOver() {
@@ -243,5 +252,9 @@ public class Game extends Observable implements Runnable {
 	}
 	public void abort() {
 		this.aborted = true;
+	}
+	public String getLevel() {
+		if(level%10 == 0) return "Boss level: " + level/10;
+		return "Level: " + String.valueOf(this.level);
 	}
 }

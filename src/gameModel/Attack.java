@@ -13,12 +13,14 @@ public abstract class Attack extends GameObject {
 	protected int damage;
 	protected boolean hostile;
 	private Player shooter;
+	private int health;
 	
-	protected Attack(Player shooter, Point location, double velocityX, double velocityY, double radius, int lifetime, int damage, Color color) {
+	protected Attack(Player shooter, Point location, double velocityX, double velocityY, double radius, int lifetime, int damage, int health, Color color) {
 		super(location, velocityX, velocityY, radius, color);
 		this.damage = damage;
 		this.lifetime = lifetime;
 		this.shooter = shooter;
+		this.health = health;
 	}
 	
 	public boolean isHostile() {
@@ -31,6 +33,13 @@ public abstract class Attack extends GameObject {
 	
 	public int getDamage() {
 		return this.damage;
+	}
+	
+	public void addHealth(int h) {
+		this.health += h;
+		if(this.health <= 0) {
+			this.destroy();
+		}
 	}
 	
 	@Override 

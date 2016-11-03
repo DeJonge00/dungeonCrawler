@@ -85,10 +85,12 @@ public class Game extends Observable implements Runnable {
 				}
 			} while (dist <= 400);
 			int next = rng.nextInt(100);
-			if(next < 70) {
-				this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
+			if(level%10 == 0) {
+				this.monsters.add(new Boss(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
+				i += 9;
 			} else {
-				this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
+				if(next < 70) this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
+				else this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
 			}
 		}
 	}
@@ -168,8 +170,8 @@ public class Game extends Observable implements Runnable {
 				}
 			}
 			for(Attack a : this.attacks) {
-				if (p.collides (a) && a.isHostile()) {
-					a.destroy();
+				if (a.collides (p) && a.isHostile()) {
+					a.addHealth(-1);
 					p.addHealth(-a.getDamage());
 				}
 			}

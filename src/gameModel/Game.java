@@ -67,6 +67,11 @@ public class Game extends Observable implements Runnable {
 	
 	private void initLevel() {
 		System.out.println("Level " + this.level + " stated!");
+		try {
+			Thread.sleep (40);
+		} catch (InterruptedException e) {
+			System.out.println("Could not wait before starting new level");
+		}
 		int x, y, temp, dist;
 		for(int i = 0; i < level; i++) {
 			do {
@@ -78,7 +83,12 @@ public class Game extends Observable implements Runnable {
 					if(temp > dist) dist = temp;
 				}
 			} while (dist <= 400);
-			this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
+			int next = rng.nextInt(100);
+			if(next < 70) {
+				this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
+			} else {
+				this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
+			}
 		}
 		this.level++;
 	}
@@ -87,11 +97,8 @@ public class Game extends Observable implements Runnable {
 	public void run ()
 	{ // Update -> sleep -> update -> sleep -> etc...
 		long executionTime, sleepTime;
-		while (true)
-		{
-			
-			if (!(this.gameOver() || this.aborted || this.paused))
-			{
+		while (true) {
+			if (!(this.gameOver() || this.aborted || this.paused)) {
 				executionTime = System.currentTimeMillis ();
 				this.update ();
 				executionTime -= System.currentTimeMillis ();
@@ -116,46 +123,36 @@ public class Game extends Observable implements Runnable {
 					return;
 				}
 			}
-
-			try
-			{
+			try {
 				Thread.sleep (sleepTime);
 			}
-			catch (InterruptedException e)
-			{
+			catch (InterruptedException e) {
 				System.err.println ("Could not sleep in the game class");
 				e.printStackTrace ();
 			}
 		}
 	}
 	
-	private void removeDestroyedObjects ()
-	{
+	private void removeDestroyedObjects () {
 		Collection <Attack> newa = new ArrayList <> ();
-		for (Attack a : this.attacks)
-		{
-			if (!a.isDestroyed ())
-			{
+		for (Attack a : this.attacks) {
+			if (!a.isDestroyed ()) {
 				newa.add (a);
 			}
 		}
 		this.attacks = newa;
 		
 		Collection <Monster> newm = new ArrayList <> ();
-		for (Monster m : this.monsters)
-		{
-			if (!m.isDestroyed ())
-			{
+		for (Monster m : this.monsters) {
+			if (!m.isDestroyed ()) {
 				newm.add (m);
 			}
 		}
 		this.monsters = newm;
 		
 		ArrayList <Player> newp = new ArrayList <> ();
-		for (Player p : this.players)
-		{
-			if (!p.isDestroyed ())
-			{
+		for (Player p : this.players) {
+			if (!p.isDestroyed ()) {
 				newp.add (p);
 			}
 		}
@@ -166,13 +163,13 @@ public class Game extends Observable implements Runnable {
 		for (Player p : this.players) {
 			for (Monster m : this.monsters) {
 				if (p.collides (m)) {
-					System.out.println("Player x monster");
+					m.destroy();
 					p.addHealth(-m.getDamage());
 				}
 			}
 			for(Attack a : this.attacks) {
 				if (p.collides (a) && a.isHostile()) {
-					p.destroy ();
+					p.addHealth(-a.getDamage());
 				}
 			}
 		}

@@ -1,7 +1,11 @@
 package gameModel;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Ellipse2D;
+
+import gameGui.GameFrame;
 
 public abstract class Attack extends GameObject {
 	private static final long serialVersionUID = -2894854206285788391L;
@@ -10,8 +14,8 @@ public abstract class Attack extends GameObject {
 	protected boolean hostile;
 	private Player shooter;
 	
-	protected Attack(Player shooter, Point location, double velocityX, double velocityY, double d, int lifetime, int damage, Color color) {
-		super(location, velocityX, velocityY, d, color);
+	protected Attack(Player shooter, Point location, double velocityX, double velocityY, double radius, int lifetime, int damage, Color color) {
+		super(location, velocityX, velocityY, radius, color);
 		this.damage = damage;
 		this.lifetime = lifetime;
 		this.shooter = shooter;
@@ -23,5 +27,28 @@ public abstract class Attack extends GameObject {
 	
 	public Player getShooter() {
 		return this.shooter;
+	}
+	
+	public int getDamage() {
+		return this.damage;
+	}
+	
+	@Override 
+	public void nextStep () 
+	{
+		this.lifetime--;
+		if(lifetime <= 0) this.destroy();
+
+		// Update location.
+		this.locationX = (this.locationX + this.velocityX);
+		this.locationY = (this.locationY + this.velocityY);
+		if(this.locationX < 0 || this.locationX > GameFrame.FRAME_WIDTH || this.locationY < 0 || this.locationY > GameFrame.FRAME_HEIGHT) this.destroy();
+	}
+	
+	public void paint(Graphics2D g) {
+		g.setColor(this.color);
+		Ellipse2D.Double e = new Ellipse2D.Double ();
+		e.setFrame (this.locationX - this.radius, this.locationY- this.radius, 2 * this.radius, 2 * this.radius);
+		g.fill (e);
 	}
 }

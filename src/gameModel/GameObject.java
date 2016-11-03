@@ -24,18 +24,14 @@ public abstract class GameObject implements Serializable {
 	// Holds true if object collided with another object, false otherwise
 	protected boolean destroyed;
 	
-	// Counts the amount of game ticks left, until this object is allowed to collide
-	protected int stepsTilCollide;
-	
 	// Constructor
-	protected GameObject (Point location, double velocityX, double velocityY, double d, Color c)
+	protected GameObject (Point location, double velocityX, double velocityY, double radius, Color c)
 	{
 		this.locationX = location.x;
 		this.locationY = location.y;
 		this.velocityX = velocityX;
 		this.velocityY = velocityY;
-		this.radius = d;
-		this.stepsTilCollide = 3;
+		this.radius = radius;
 		this.color = c;
 	}
 	
@@ -73,11 +69,6 @@ public abstract class GameObject implements Serializable {
 		double distY = this.locationY - other.getLocation ().y;
 		double distance = Math.sqrt(distX * distX + distY * distY);
 		
-		return distance < this.getRadius() + other.getRadius() && this.stepsTilCollide () == 0 && other.stepsTilCollide () == 0;
-	}
-	
-	public int stepsTilCollide ()
-	{
-		return this.stepsTilCollide;
+		return distance < this.getRadius() + other.getRadius();
 	}
 }

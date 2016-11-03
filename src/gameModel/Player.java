@@ -61,9 +61,9 @@ public class Player extends GameObject {
 		this.score = 0;
 		this.health = 100;
 		
-		this.acceleration = Game.REFRESHINTERVAL;			// Multiplier
+		this.acceleration = 1.0*Game.REFRESHINTERVAL;			// Multiplier
 		this.decelleration = 0.5 / Game.REFRESHINTERVAL;		// Multiplier
-		this.maxSpeed = 10 * Game.REFRESHINTERVAL;	
+		this.maxSpeed = 11 * Game.REFRESHINTERVAL;	
 	}
 
 	// Getters and Setters
@@ -137,9 +137,7 @@ public class Player extends GameObject {
 	// Methods
 	@Override 
 	public void nextStep () 
-	{
-		this.stepsTilCollide = Math.max (0, this.stepsTilCollide - 1);
-		
+	{	
 		// -- MOVEMENT --------------
 		if (this.up)
 		{ // Update speed if accelerating, but constrain values.

@@ -18,18 +18,12 @@ public class Zombie extends Monster {
 			System.out.println("No target found");
 		} else {
 			// Calculate direction
-			if(this.target.getLocation().x > this.locationX) {
-				this.velocityX = (Game.rng.nextInt(10)/10)+2;
-			} else {
-				this.velocityX = -((Game.rng.nextInt(10)/10)+2);
-			}
-			if(this.target.getLocation().y > this.locationY) {
-				this.velocityY = (Game.rng.nextInt(10)/10)+2;
-			} else {
-				this.velocityY = -((Game.rng.nextInt(10)/10)+2);
-			}
-						
-			this.stepsTilCollide = Math.max (0, this.stepsTilCollide - 1);
+			double diffX = (this.locationX - this.target.locationX);
+			double diffY = (this.locationY - this.target.locationY);
+			double distance = Math.sqrt((diffX*diffX)+(diffY*diffY));
+			double scale = 0.8*Game.REFRESHINTERVAL / distance;
+			this.velocityX = -(diffX*scale);
+			this.velocityY = -(diffY*scale);
 
 			// Update location.
 			this.locationX = (this.locationX + this.velocityX);

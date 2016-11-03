@@ -65,6 +65,10 @@ public class Controller implements KeyListener {
 			System.out.println("Equip: Fireball");
 			this.player.setWeapon("fireball");
 			break;
+		case KeyEvent.VK_3:
+			System.out.println("Equip: Shotgun");
+			this.player.setWeapon("shotgun");
+			break;
 		}
 	}
 
@@ -97,7 +101,6 @@ public class Controller implements KeyListener {
 			this.player.setRight(false);
 			break;
 		}
-		
 	}
 
 	@Override
@@ -105,5 +108,4 @@ public class Controller implements KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

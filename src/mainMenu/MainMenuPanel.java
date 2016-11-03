@@ -52,7 +52,8 @@ public class MainMenuPanel extends JPanel {
 						+ "Attacking:                Arrow-keys\n"
 						+ "Equip weapon:\n"
 						+ "  Lightningbolt:        1\n"
-						+ "  Fireball:                   2",
+						+ "  Fireball:                   2\n"
+						+ "  Shotgun:                 3",
 						"Control scheme", JOptionPane.PLAIN_MESSAGE);
 			}
 		}

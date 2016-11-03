@@ -192,7 +192,7 @@ public class Player extends GameObject {
 	}
 	
 	private void attack() {
-		int velX, velY;
+		double velX, velY;
 		switch (this.weapon) {
 			case "lightningbolt":
 				switch(this.attackDirection) {
@@ -248,6 +248,60 @@ public class Player extends GameObject {
 				}
 				if(!(velX == 0 && velY == 0)) {
 					game.addAttack(new Fireball(this, new Point((int)this.locationX, (int)this.locationY), velX, velY, 0));
+					this.attackStrength = 0;
+					this.attackDirection = "";
+					this.attackCooldown = 5*Game.REFRESHINTERVAL;
+					break;
+				}
+				break;
+			case "shotgun":
+				double velX1, velY1, velX2, velY2;
+				double spread = 1.5;
+				switch(this.attackDirection) {
+				case "up":
+					velX = 0;
+					velY = -3 * Game.REFRESHINTERVAL;
+					velX1 = spread;
+					velY1 = 0.9*velY;
+					velX2 = -spread;
+					velY2 = 0.9*velY;
+					break;
+				case "down":
+					velX = 0;
+					velY = 3 * Game.REFRESHINTERVAL;
+					velX1 = spread;
+					velY1 = 0.9*velY;
+					velX2 = -spread;
+					velY2 = 0.9*velY;
+					break;
+				case "right":
+					velX = 3 * Game.REFRESHINTERVAL;
+					velY = 0;
+					velX1 = 0.9*velX;
+					velY1 = spread;
+					velX2 = 0.9*velX;
+					velY2 = -spread;
+					break;
+				case "left":
+					velX = -3 * Game.REFRESHINTERVAL;
+					velY = 0;
+					velX1 = 0.9*velX;
+					velY1 = spread;
+					velX2 = 0.9*velX;
+					velY2 = -spread;
+					break;
+				default:
+					velX = 0;
+					velY = 0;
+					velX1 = 0;
+					velY1 = 0;
+					velX2 = 0;
+					velY2 = 0;
+				}
+				if(!(velX == 0 && velY == 0)) {
+					game.addAttack(new Bullet(this, new Point((int)this.locationX, (int)this.locationY), velX, velY));
+					game.addAttack(new Bullet(this, new Point((int)this.locationX, (int)this.locationY), velX1, velY1));
+					game.addAttack(new Bullet(this, new Point((int)this.locationX, (int)this.locationY), velX2, velY2));
 					this.attackStrength = 0;
 					this.attackDirection = "";
 					this.attackCooldown = 5*Game.REFRESHINTERVAL;

@@ -169,6 +169,7 @@ public class Game extends Observable implements Runnable {
 			}
 			for(Attack a : this.attacks) {
 				if (p.collides (a) && a.isHostile()) {
+					a.destroy();
 					p.addHealth(-a.getDamage());
 				}
 			}
@@ -176,17 +177,16 @@ public class Game extends Observable implements Runnable {
 		for(Monster m : this.monsters) {
 			for(Attack a : this.attacks) {
 				if(m.collides(a) && !a.isHostile()) {
-					m.destroy();
+					m.addHealth(a);
 					a.destroy();
-					a.getShooter().addScore(10);
 				}
 			}
 		}
 		for(Attack a : attacks) {
 			for(Attack a2 : attacks) {
-				if(a.isHostile() && !a2.isHostile() && a.collides(a2)) {
+				if(!a.isHostile() && a2.isHostile() && a.collides(a2)) {
 					a.destroy();
-					if(a.getShooter() != null) a.getShooter().addScore(1);
+					a.getShooter().addScore(1);
 					a2.destroy();
 				}
 			}
@@ -254,7 +254,7 @@ public class Game extends Observable implements Runnable {
 		this.aborted = true;
 	}
 	public String getLevel() {
-		if(level%10 == 0) return "Boss level: " + level/10;
+		//if(level%10 == 0) return "Boss level: " + level/10;
 		return "Level: " + String.valueOf(this.level);
 	}
 }

@@ -9,7 +9,7 @@ public class Boss extends Monster {
 	private int cooldown;
 
 	protected Boss(Game g, Point location, Player target) {
-		super(location, target, 100, 100, Color.pink);
+		super(location, target, 100, 100, 500, Color.pink);
 		this.game = game;
 		this.cooldown = Game.rng.nextInt(100/Game.REFRESHINTERVAL) + 200/Game.REFRESHINTERVAL;
 	}

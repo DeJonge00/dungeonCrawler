@@ -1,6 +1,8 @@
 package gameGui;
 
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
@@ -57,6 +59,11 @@ public class GameFrame extends JFrame {
 		// Enable frame
 		this.setFocusable(true);
 		this.requestFocusInWindow();
+		
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) ((dimension.getWidth() - GameFrame.FRAME_WIDTH) / 2);
+	    int y = (int) ((dimension.getHeight() - GameFrame.FRAME_HEIGHT) / 2)-20;
+	    this.setLocation(x, y);
 		
 		this.setVisible (true);
 	}

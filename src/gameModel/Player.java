@@ -10,42 +10,40 @@ import gameGui.GameFrame;
 public class Player extends GameObject {
 
 	private Game game;
-	// Amount of game ticks left, until the player can attack again
-	private int attackCooldown;
 	
-	// Time attackbutton has been pressed
-	private int attackStrength;
-
-	// Indicates whether the fire button is pressed
-	private boolean isAttacking;
-
 	// Indicates whether a walk button is pressed
 	private boolean up;
 	private boolean right;
 	private boolean left;
 	private boolean down;
 	
-	// Indicates where the player is attacking
+	// Indicates if/where the player is attacking
 	private String attackDirection;
+	private boolean isAttacking;
 	
 	// Player info
 	private int score;
+	private String name;
 
 	// Player stats
 	private double acceleration;
 	private double decelleration;
 	private double maxSpeed;
 	private String weapon;
+	private int health;
+	private int attackStrength;
+	private int attackCooldown;
 	
 	// Constructor
-	public Player (Point point) {
-		this (point, 0, 0, 25);
+	public Player (Point point, String name) {
+		this (point, 0, 0, 25, name);
 	}
 
-	private Player (Point location, double velocityX, double velocityY, int radius)
+	private Player (Point location, double velocityX, double velocityY, int radius, String name)
 	{
 		super (location, velocityX, velocityY, radius, Color.red);
 		this.init();
+		this.name = name;
 	}
 	
 	public void init() {
@@ -61,6 +59,7 @@ public class Player extends GameObject {
 		this.attackStrength = 0;
 		this.weapon = "lightningbolt";
 		this.score = 0;
+		this.health = 100;
 		
 		this.acceleration = Game.REFRESHINTERVAL;			// Multiplier
 		this.decelleration = 0.5 / Game.REFRESHINTERVAL;		// Multiplier
@@ -111,11 +110,28 @@ public class Player extends GameObject {
 	public void resurrect() {
 		this.destroyed = false;
 	}
+	public void addScore(int s) {
+		this.score += s;
+	}
+	public void addHealth(int h) {
+		health += h;
+		if(health <= 0) {
+			health = 0;
+			this.destroy();
+		}
+	}
+	// Getters HUD elements
 	public int getScore() {
 		return this.score;
 	}
-	public void addScore(int s) {
-		this.score += s;
+	public String getName() {
+		return this.name;
+	}
+	public int getCooldown() {
+		return this.attackCooldown;
+	}
+	public int getHealth() {
+		return this.health;
 	}
 	
 	// Methods

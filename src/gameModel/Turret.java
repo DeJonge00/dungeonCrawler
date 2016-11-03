@@ -8,7 +8,7 @@ public class Turret extends Monster {
 	private int cooldown;
 	private Game game;
 	protected Turret(Game g, Player target, Point location) {
-		super(location, target, Color.yellow);
+		super(location, target, 100, Color.yellow);
 		this.game = g;
 		cooldown = 500/Game.REFRESHINTERVAL;
 	}

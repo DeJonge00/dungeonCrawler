@@ -35,7 +35,7 @@ public class GameFrame extends JFrame {
 		addMenuBar();
 		
 		// Init player and keylistener
-		p1 = new Player(new Point(this.FRAME_WIDTH/2,this.FRAME_HEIGHT/2));
+		p1 = new Player(new Point(this.FRAME_WIDTH/2,this.FRAME_HEIGHT/2), "Player1");
 		this.game = new Game(this, p1);
 		Controller c1 = new Controller(game, p1);
 		this.addKeyListener(c1);

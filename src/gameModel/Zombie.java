@@ -9,7 +9,7 @@ public class Zombie extends Monster {
 	private static final long serialVersionUID = -4681510136089117903L;
 
 	protected Zombie(Point location, Player target) {
-		super(location, target, Color.green);
+		super(location, target, 100, Color.green);
 	}
 
 	@Override

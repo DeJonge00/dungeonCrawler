@@ -8,10 +8,12 @@ import java.awt.geom.Ellipse2D;
 public abstract class Monster extends GameObject {
 	private static final long serialVersionUID = 7294683746940898656L;
 	protected Player target;
+	private int contactDamage;
 	
-	protected Monster(Point location, Player target, Color c) {
+	protected Monster(Point location, Player target, int damage, Color c) {
 		super(location, 0, 0, 30, c);
 		this.target = target;
+		this.contactDamage = damage;
 	}
 	
 	@Override
@@ -24,5 +26,9 @@ public abstract class Monster extends GameObject {
 
 	public void setTarget(Player p) {
 		this.target = p;
+	}
+	
+	public int getDamage() {
+		return this.contactDamage;
 	}
 }

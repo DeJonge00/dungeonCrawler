@@ -42,7 +42,6 @@ public class Game extends Observable implements Runnable {
 		this(frame);
 		this.allPlayers.add(p1);
 		p1.setGame(this);
-		System.out.println(allPlayers.size());
 	}
 	
 	// Methods
@@ -107,7 +106,6 @@ public class Game extends Observable implements Runnable {
 				    "Restart game?","I WANT ATTENTION", JOptionPane.YES_NO_CANCEL_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,
 				    null, options, options[1]);
-				System.out.println(n);
 				this.gameOver = false;
 				if(n == 0) {
 					this.initGameData();
@@ -169,7 +167,7 @@ public class Game extends Observable implements Runnable {
 			for (Monster m : this.monsters) {
 				if (p.collides (m)) {
 					System.out.println("Player x monster");
-					p.destroy();
+					p.addHealth(-m.getDamage());
 				}
 			}
 			for(Attack a : this.attacks) {

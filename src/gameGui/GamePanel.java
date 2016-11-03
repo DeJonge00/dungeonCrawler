@@ -35,6 +35,7 @@ public class GamePanel extends JPanel {
 		g2.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		this.setBackground (Color.black);
 
+		// Paint game objects
 		for (Attack a : this.game.getAttacks())
 		{
 			a.paint(g2);
@@ -47,10 +48,23 @@ public class GamePanel extends JPanel {
 		{
 			p.paint(g2);
 		}
-
+		
+		// Paint HUD
 		g2.setColor (Color.WHITE);
 		for(int i = 0; i < this.game.getAllPlayers().size(); i++) {
-			g2.drawString (String.valueOf (this.game.getAllPlayers().get(i).getScore()), 20, (i+1)*20);
+			g2.drawString (this.game.getAllPlayers().get(i).getName() + ": " + String.valueOf (this.game.getAllPlayers().get(i).getScore()), 20, (i+1)*20);
+		}
+		
+		g2.setColor (Color.RED);
+		for(int i = 0; i < this.game.getAllPlayers().size(); i++) {
+			int height = this.game.getAllPlayers().get(0).getHealth() / 5;
+			g2.fillRect(3, (GameFrame.FRAME_HEIGHT - 75) - (5*height), 15, 5*height);
+		}
+		
+		g2.setColor (Color.BLUE);
+		for(int i = 0; i < this.game.getAllPlayers().size(); i++) {
+			int height = this.game.getAllPlayers().get(0).getCooldown();
+			g2.fillRect(20, (GameFrame.FRAME_HEIGHT - 75) - (5*height), 15, 5*height);
 		}
 	}
 }

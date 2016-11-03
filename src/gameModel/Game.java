@@ -41,6 +41,7 @@ public class Game extends Observable implements Runnable {
 	public Game(JFrame frame, Player p1) {
 		this(frame);
 		this.allPlayers.add(p1);
+		p1.setGame(this);
 		System.out.println(allPlayers.size());
 	}
 	
@@ -71,13 +72,13 @@ public class Game extends Observable implements Runnable {
 		for(int i = 0; i < level; i++) {
 			do {
 				dist = 300;
-				x = rng.nextInt(GameFrame.FRAME_WIDTH-45) + 30;
+				x = rng.nextInt(GameFrame.FRAME_WIDTH-45) + 20;
 				y = rng.nextInt(GameFrame.FRAME_HEIGHT-90) + 10;
 				for(Player p : players) {
-					temp = Math.abs(p.getLocation().x - x) + Math.abs(p.getLocation().y);
+					temp = Math.abs(p.getLocation().x - x) + Math.abs(p.getLocation().y - y);
 					if(temp > dist) dist = temp;
 				}
-			} while (dist <= 450);
+			} while (dist <= 400);
 			this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
 		}
 		this.level++;
@@ -182,6 +183,7 @@ public class Game extends Observable implements Runnable {
 				if(m.collides(a) && !a.isHostile()) {
 					m.destroy();
 					a.destroy();
+					a.getShooter().addScore(10);
 				}
 			}
 		}
@@ -208,7 +210,6 @@ public class Game extends Observable implements Runnable {
 		}
 		if(players.size() <= 0) {
 			this.gameOver = true;
-			System.out.println("205");
 			return;
 		}
 		for(Attack a : attacks) {
@@ -233,6 +234,9 @@ public class Game extends Observable implements Runnable {
 	}
 	
 	// Getters and Setters
+	public ArrayList<Player> getAllPlayers() {
+		return this.allPlayers;
+	}
 	public ArrayList<Player> getPlayers() {
 		return this.players;
 	}

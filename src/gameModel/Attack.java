@@ -8,15 +8,20 @@ public abstract class Attack extends GameObject {
 	protected int lifetime;
 	protected int damage;
 	protected boolean hostile;
+	private Player shooter;
 	
-	protected Attack(Point location, double velocityX, double velocityY, double d, int lifetime, int damage, boolean hostile, Color color) {
+	protected Attack(Player shooter, Point location, double velocityX, double velocityY, double d, int lifetime, int damage, Color color) {
 		super(location, velocityX, velocityY, d, color);
 		this.damage = damage;
 		this.lifetime = lifetime;
-		this.hostile = hostile;
+		this.shooter = shooter;
 	}
 	
 	public boolean isHostile() {
-		return hostile;
+		return this.shooter == null;
+	}
+	
+	public Player getShooter() {
+		return this.shooter;
 	}
 }

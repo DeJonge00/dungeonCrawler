@@ -8,8 +8,8 @@ import java.awt.Graphics2D;
 public class LightningBolt extends Attack {
 	private static final long serialVersionUID = 5628077465545068736L;
 
-	protected LightningBolt(Point location, double velocityX, double velocityY, int level, boolean hostile) {
-		super(location, velocityX, velocityY, 10*(Math.pow(1.1, level)), 150 / Game.REFRESHINTERVAL, 40, hostile,  Color.blue);
+	protected LightningBolt(Player player, Point location, double velocityX, double velocityY, int level) {
+		super(player, location, velocityX, velocityY, 10*(Math.pow(1.1, level)), 150 / Game.REFRESHINTERVAL, 40,  Color.blue);
 	}
 
 	// Methods

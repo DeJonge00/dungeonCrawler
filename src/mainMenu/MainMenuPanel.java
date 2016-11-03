@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -17,16 +18,21 @@ public class MainMenuPanel extends JPanel {
 	private static final long serialVersionUID = -3176198390190043523L;
 	
 	private JLabel title;
+	private JLabel title2;
 	private JButton startSPGame;
+	private JButton showControls;
 	private JButton exitGame;
 
 	private JFrame frame;
 	
 	public MainMenuPanel(JFrame frame) {
 		this.frame = frame;
-		this.title = addLabel("Let the games begin!", 10, 10, 200, 50, 45);
-		this.startSPGame = addButton("Start singleplayer game", 10, 100, 200, 50);
-		this.exitGame = addButton("Exit game", 10, 100, 200, 50);
+		this.setLayout(null);
+		this.title = addLabel("Welcome to:", 175, 50, 400, 50, 25);
+		this.title2 = addLabel("Dungeon Crawler", 105, 100, 400, 50, 40);
+		this.startSPGame = addButton("Start singleplayer game", 150, 180, 200, 40);
+		this.showControls = addButton("Show controls", 150, 230, 200, 40);
+		this.exitGame = addButton("Exit game", 150, 280, 200, 40);
 		
 		// Button starts new single player game
 		startSPGame.addActionListener(new ActionListener() {
@@ -34,6 +40,20 @@ public class MainMenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				new GameFrame();
 				MainMenuPanel.this.frame.setVisible(false);
+			}
+		}
+		);
+		
+		showControls.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(frame, 
+						"Walking:                   W/A/S/D\n"
+						+ "Attacking:                Arrow-keys\n"
+						+ "Equip weapon:\n"
+						+ "  Lightningbolt:        1\n"
+						+ "  Fireball:                   2",
+						"Control scheme", JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 		);

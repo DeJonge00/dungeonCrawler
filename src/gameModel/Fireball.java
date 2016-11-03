@@ -7,8 +7,8 @@ import java.awt.geom.Ellipse2D;
 
 public class Fireball extends Attack {
 	
-	protected Fireball(Point location, double velocityX, double velocityY, int level, boolean hostile) {
-		super(location, velocityX, velocityY, 20*(Math.pow(1.1, level)), 50 / Game.REFRESHINTERVAL, 100, hostile, Color.red);
+	protected Fireball(Player player, Point location, double velocityX, double velocityY, int level) {
+		super(player, location, velocityX, velocityY, 20*(Math.pow(1.1, level)), 50 / Game.REFRESHINTERVAL, 100, Color.red);
 	}
 
 	// Methods

@@ -17,8 +17,8 @@ import mainMenu.MainMenuFrame;
 import mainMenu.MainMenuPanel;
 
 public class GameFrame extends JFrame {
-	public static int FRAME_HEIGHT = 800;
-	public static int FRAME_WIDTH = 1280;
+	public static int FRAME_HEIGHT = 1000;
+	public static int FRAME_WIDTH = 1600;
 	private GamePanel panel;
 	private AbstractAction quitAction;
 	private AbstractAction toMainMenu;
@@ -29,7 +29,7 @@ public class GameFrame extends JFrame {
 	public GameFrame() {
 		// Init frame
 		this.initActions ();
-		this.setTitle ("My Amazing Game");
+		this.setTitle ("Dungeon Crawler (Dont Blame Me For Being Terrible At Names)");
 		this.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		this.setSize (this.FRAME_WIDTH, this.FRAME_HEIGHT);
 		addMenuBar();

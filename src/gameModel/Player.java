@@ -40,7 +40,6 @@ public class Player extends GameObject {
 	// Constructor
 	public Player (Point point) {
 		this (point, 0, 0, 25);
-		System.out.println("New player created");
 	}
 
 	private Player (Point location, double velocityX, double velocityY, int radius)
@@ -111,6 +110,12 @@ public class Player extends GameObject {
 	}
 	public void resurrect() {
 		this.destroyed = false;
+	}
+	public int getScore() {
+		return this.score;
+	}
+	public void addScore(int s) {
+		this.score += s;
 	}
 	
 	// Methods
@@ -198,7 +203,7 @@ public class Player extends GameObject {
 					velY = 0;
 				}
 				if(!(velX == 0 && velY == 0)) {
-					game.addAttack(new LightningBolt(new Point((int)this.locationX, (int) this.locationY), velX, velY, 0, false));
+					game.addAttack(new LightningBolt(this, new Point((int)this.locationX, (int) this.locationY), velX, velY, 0));
 					this.attackStrength = 0;
 					this.attackDirection = "";
 					this.attackCooldown = 100/Game.REFRESHINTERVAL;
@@ -228,7 +233,7 @@ public class Player extends GameObject {
 					velY = 0;
 				}
 				if(!(velX == 0 && velY == 0)) {
-					game.addAttack(new Fireball(new Point((int)this.locationX, (int)this.locationY), velX, velY, 0, false));
+					game.addAttack(new Fireball(this, new Point((int)this.locationX, (int)this.locationY), velX, velY, 0));
 					this.attackStrength = 0;
 					this.attackDirection = "";
 					this.attackCooldown = 5*Game.REFRESHINTERVAL;

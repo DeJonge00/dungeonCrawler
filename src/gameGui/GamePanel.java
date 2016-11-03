@@ -49,5 +49,8 @@ public class GamePanel extends JPanel {
 		}
 
 		g2.setColor (Color.WHITE);
+		for(int i = 0; i < this.game.getAllPlayers().size(); i++) {
+			g2.drawString (String.valueOf (this.game.getAllPlayers().get(i).getScore()), 20, (i+1)*20);
+		}
 	}
 }

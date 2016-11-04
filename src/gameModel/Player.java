@@ -309,10 +309,10 @@ public class Player extends GameObject {
 				}
 				break;
 			case "lazer":
-				game.addAttack(new Lazer(this, 5, 50, 5));
+				game.addAttack(new Lazer(this, 5, 50, 9));
 				this.attackStrength = 0;
 				this.attackDirection = "";
-				this.attackCooldown = 10*Game.REFRESHINTERVAL;
+				this.attackCooldown = 15*Game.REFRESHINTERVAL;
 				break;
 			default:
 				System.out.println("Failed to fire a prototype weapon");

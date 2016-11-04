@@ -87,13 +87,13 @@ public class Game extends Observable implements Runnable {
 			
 			// Decide on monster
 			int next = rng.nextInt(100);
-			//if(i%5 == 0) {
+			if(i%5 == 0) {
 				this.monsters.add(new Boss(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
-			//	i += 2;
-			//} else {
-			//	if(next < 70) this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
-			//	else this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
-			//}
+				i += 2;
+			} else {
+				if(next < 70) this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
+				else this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
+			}
 		}
 	}
 	

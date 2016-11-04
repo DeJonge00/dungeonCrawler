@@ -84,14 +84,16 @@ public class Game extends Observable implements Runnable {
 					if(temp > dist) dist = temp;
 				}
 			} while (dist <= 400);
+			
+			// Decide on monster
 			int next = rng.nextInt(100);
-			if(level%10 == 0) {
+			//if(i%5 == 0) {
 				this.monsters.add(new Boss(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
-				i += 9;
-			} else {
-				if(next < 70) this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
-				else this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
-			}
+			//	i += 2;
+			//} else {
+			//	if(next < 70) this.monsters.add(new Zombie(new Point(x, y), players.get(rng.nextInt(players.size()))));
+			//	else this.monsters.add(new Turret(this, new Point(x, y), players.get(rng.nextInt(players.size()))));
+			//}
 		}
 	}
 	
@@ -164,13 +166,13 @@ public class Game extends Observable implements Runnable {
 	private void checkCollisions () {
 		for (Player p : this.players) {
 			for (Monster m : this.monsters) {
-				if (p.collides (m)) {
+				if (p.collides(m)) {
 					m.destroy();
 					p.addHealth(-m.getDamage());
 				}
 			}
 			for(Attack a : this.attacks) {
-				if (a.collides (p) && a.isHostile()) {
+				if (a.collides(p) && a.isHostile()) {
 					a.addHealth(-1);
 					p.addHealth(-a.getDamage());
 				}
@@ -178,17 +180,17 @@ public class Game extends Observable implements Runnable {
 		}
 		for(Monster m : this.monsters) {
 			for(Attack a : this.attacks) {
-				if(m.collides(a) && !a.isHostile()) {
+				if(a.collides(m) && !a.isHostile()) {
 					m.addHealth(a);
-					a.destroy();
+					a.addHealth(-1);
 				}
 			}
 		}
 		for(Attack a : attacks) {
 			for(Attack a2 : attacks) {
 				if(!a.isHostile() && a2.isHostile() && a.collides(a2)) {
-					a.destroy();
-					a.getShooter().addScore(1);
+					a.addHealth(-1);
+					((Player) a.getShooter()).addScore(1);
 					a2.destroy();
 				}
 			}

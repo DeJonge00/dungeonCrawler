@@ -42,6 +42,7 @@ public abstract class Monster extends GameObject {
 	
 	public void addHealth(int h) {
 		this.health += h;
+		System.out.println(this.health);
 		if(this.health <= 0) {
 			this.destroy();
 		}
@@ -49,6 +50,7 @@ public abstract class Monster extends GameObject {
 	
 	public void addHealth(Attack a) {
 		this.health -= a.getDamage();
+		System.out.println(this.health);
 		if(this.health <= 0) {
 			this.destroy();
 			a.getShooter().addScore(worth);

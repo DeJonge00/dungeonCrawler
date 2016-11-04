@@ -6,7 +6,7 @@ import java.awt.Point;
 import gameGui.GameFrame;
 
 public class Boss extends Monster {
-
+	private static final long serialVersionUID = -1734064509930023742L;
 	private Game game;
 	private int cooldown;
 
@@ -39,7 +39,6 @@ public class Boss extends Monster {
 			int next = Game.rng.nextInt(100);
 			if(next <= 50) this.attack1();
 			else this.attack2();
-			this.color = Color.pink;
 		} else {
 			cooldown--;
 		}
@@ -56,13 +55,11 @@ public class Boss extends Monster {
 		double velY = -(diffY*scale);
 		
 		game.addAttack(new TurretBullet(null, new Point((int)locationX, (int)locationY), velX, velY));
-		
 		this.cooldown = Game.rng.nextInt(100/Game.REFRESHINTERVAL) + 50/Game.REFRESHINTERVAL;
 	}
 	
 	private void attack2() {
-		game.addAttack(new Lazer(this.getLocation()));
-		
+		game.addAttack(new Lazer(this, 40, 150, 100));
 		this.cooldown = Game.rng.nextInt(100/Game.REFRESHINTERVAL) + 200/Game.REFRESHINTERVAL;
 	}
 }

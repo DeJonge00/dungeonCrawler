@@ -308,8 +308,14 @@ public class Player extends GameObject {
 					break;
 				}
 				break;
+			case "lazer":
+				game.addAttack(new Lazer(this, 5, 50, 5));
+				this.attackStrength = 0;
+				this.attackDirection = "";
+				this.attackCooldown = 10*Game.REFRESHINTERVAL;
+				break;
 			default:
-				System.out.println("No weapon equipped");
+				System.out.println("Failed to fire a prototype weapon");
 				this.attackStrength = 0;
 				this.attackDirection = "";
 		}

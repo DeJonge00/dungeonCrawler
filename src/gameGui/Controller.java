@@ -69,6 +69,10 @@ public class Controller implements KeyListener {
 			System.out.println("Equip: Shotgun");
 			this.player.setWeapon("shotgun");
 			break;
+		case KeyEvent.VK_4:
+			System.out.println("Equip: Lazer");
+			this.player.setWeapon("lazer");
+			break;
 		}
 	}
 

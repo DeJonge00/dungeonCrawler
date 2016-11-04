@@ -43,8 +43,7 @@ public abstract class Attack extends GameObject {
 	}
 	
 	@Override 
-	public void nextStep () 
-	{
+	public void nextStep () {
 		this.lifetime--;
 		if(lifetime <= 0) this.destroy();
 

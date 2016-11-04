@@ -54,7 +54,8 @@ public class MainMenuPanel extends JPanel {
 						+ "Equip weapon:\n"
 						+ "  Lightningbolt:        1\n"
 						+ "  Fireball:                   2\n"
-						+ "  Shotgun:                 3",
+						+ "  Shotgun:                 3\n"
+						+ "  Lazer:                      4",
 						"Control scheme", JOptionPane.PLAIN_MESSAGE);
 			}
 		}

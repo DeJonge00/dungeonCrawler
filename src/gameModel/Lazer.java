@@ -9,32 +9,36 @@ import gameGui.GameFrame;
 
 public class Lazer extends Attack {
 	private static final long serialVersionUID = 969857174724560046L;
+	private GameObject shooter;
 
-	protected Lazer(Point location) {
-		super(null, location, 0, 0, 40, 150 / Game.REFRESHINTERVAL, 100, 100, Color.red);
+	protected Lazer(Player shooter, int radius, int lifetime, int damage) {
+		super(shooter, shooter.getLocation(), 0, 0, radius, lifetime / Game.REFRESHINTERVAL, damage, 100000, Color.red);
+		this.shooter = shooter;
+	}
+	
+	protected Lazer(Monster shooter, int radius, int lifetime, int damage) {
+		super(null, shooter.getLocation(), 0, 0, radius, lifetime / Game.REFRESHINTERVAL, damage, 100000, Color.red);
+		this.shooter = shooter;
 	}
 
 	@Override 
-	public void nextStep () 
-	{
+	public void nextStep () {
 		this.lifetime--;
 		if(lifetime <= 0) this.destroy();
-		
 	}
 	
 	public void paint(Graphics2D g) {
 		g.setColor(this.color);
 		Rectangle2D.Double e = new Rectangle2D.Double();
-		e.setFrame (this.locationX-this.radius, 0, 2*this.radius, GameFrame.FRAME_HEIGHT);
+		e.setFrame (this.shooter.locationX-this.radius, 0, 2*this.radius, GameFrame.FRAME_HEIGHT);
 		g.fill (e);
-		e.setFrame (0, this.locationY-this.radius, GameFrame.FRAME_WIDTH, 2*this.radius);
+		e.setFrame (0, this.shooter.locationY-this.radius, GameFrame.FRAME_WIDTH, 2*this.radius);
 		g.fill (e);
 	}
 	
 	@Override
 	public boolean collides (GameObject other) {
-		double distance = Math.min(Math.abs(this.locationX - other.locationX), Math.abs((this.locationY - other.locationY)));
-		System.out.println("Distance: " + distance);
+		double distance = Math.min(Math.abs(this.shooter.locationX - other.locationX), Math.abs((this.shooter.locationY - other.locationY)));
 		return distance < this.getRadius() + other.getRadius();
 	}
 }
